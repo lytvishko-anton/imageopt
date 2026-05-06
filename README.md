@@ -9,6 +9,6 @@ A high-performance image optimization pipeline using **Symfony**, **Go**, and **
 - **Docker**: Fully containerized environment.
 
 ## ⚡ Quick Start
-1. `git clone <your-repo-url>`
+1. `git clone https://github.com/lytvishko-anton/imageopt`
 2. `docker-compose up -d --build`
 3. Open `http://localhost:8000/index.html`
