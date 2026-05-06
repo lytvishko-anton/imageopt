@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  symfony:
+    build: ./symfony-app
+    command: >
+      sh -c "mkdir -p /shared_uploads && chmod 777 /shared_uploads && php -S 0.0.0.0:8000 -t public"
+    ports:
+      - "8000:8000"
+    user: "1000:1000"    
+    volumes:
+      - ./symfony-app:/var/www/html
+      - ./shared_uploads:/shared_uploads
+    environment:
+      MESSENGER_TRANSPORT_DSN: amqp://guest:guest@rabbitmq:5672/%2f/messages
+
+  worker:
+    build: ./worker
+    user: "1000:1000"
+    volumes:
+      - ./worker:/app
+      - ./shared_uploads:/shared_uploads
+    environment:
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672/
+    depends_on:
+      - rabbitmq

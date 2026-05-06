@@ -1,0 +1,14 @@
+# Symfony
+/symfony-app/var/
+/symfony-app/vendor/
+/symfony-app/.env.local
+
+# Go
+/worker/worker-bin
+
+# Shared Folder (IMPORTANT: Keep the folder, ignore the files)
+/shared_uploads/*
+!/shared_uploads/.gitkeep
+
+# Docker
+.DS_Store

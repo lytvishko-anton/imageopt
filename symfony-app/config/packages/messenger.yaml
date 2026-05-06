@@ -1,0 +1,23 @@
+framework:
+    messenger:
+        failure_transport: failed
+
+        transports:
+            async:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                serializer: messenger.transport.symfony_serializer
+                retry_strategy:
+                    max_retries: 3
+                    multiplier: 2
+                options:
+                    queues:
+                        messages: ~
+            
+            failed: 'doctrine://default?queue_name=failed'
+
+        routing:
+            'App\Message\ImageOptimizationTask': async
+            
+            'Symfony\Component\Mailer\Messenger\SendEmailMessage': async
+            'Symfony\Component\Notifier\Message\ChatMessage': async
+            'Symfony\Component\Notifier\Message\SmsMessage': async
